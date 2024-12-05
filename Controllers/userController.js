@@ -171,6 +171,7 @@ const addToCart = asynchandler(async (req, res) => {
        user.wishlist.push(property._id);
 
        await user.save();
+       
        console.log(user?.wishlist)
 
        // Return a success response with the newly added cart item
