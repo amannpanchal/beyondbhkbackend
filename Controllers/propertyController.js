@@ -1,6 +1,6 @@
 const multer = require("multer");
-const Property = require("../Models/propertyModel");
-const { cloudinary } = require("../Utils/cloudinary");
+const Property = require("../Models/propertyModel.js");
+const { cloudinary } = require("../Utils/cloudinary.js");
 
 
 // Controller to create a new property

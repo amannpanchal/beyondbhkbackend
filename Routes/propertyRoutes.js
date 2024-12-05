@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const {upload} = require('../Utils/cloudinary')
 
-const { createProperty, getMyAllProperty, getAllWebsiteProperty, getSingleProperty, getAllProperty, createPropertyy, updateProperty } = require("../Controllers/propertyController");
-const { validateUserToken } = require("../middlewares/authMiddleware");
-const { addToCart } = require("../Controllers/userController");
+const { createProperty, getMyAllProperty, getAllWebsiteProperty, getSingleProperty, getAllProperty, createPropertyy, updateProperty } = require("../Controllers/propertyController.js");
+const { validateUserToken } = require("../middlewares/authMiddleware.js");
+// const { addToCart } = require("../Controllers/userController");
 
 // Create a new property (upload images and videos)
 router.post(
