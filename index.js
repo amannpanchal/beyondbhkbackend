@@ -1,3 +1,4 @@
+
 const express = require("express");
 const app = express();
 require("dotenv").config();
@@ -15,10 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/property", require("./Routes/propertyRoutes.js"));
-app.use("/api/city", require("./Routes/cityRoutes.js"));
-app.use("/api/category", require("./Routes/categoryRoutes.js"));
-app.use("/api/propertytype", require("./Routes/propertyTypeRoutes.js"));
-app.use("/api/auth", require("./Routes/userRoutes.js"));
+   app.use("/api/auth", require("./Routes/userRoutes.js"));
 app.use("/api/admin", require("./Routes/adminRoutes.js"));
 app.use("/api/superAdmin", require("./Routes/superAdminRoutes.js"));
 

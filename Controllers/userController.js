@@ -109,6 +109,16 @@ const getUserById = asynchandler(async (req, res) => {
     return internalServerError(res, error.message);
   }
 });
+const myprofile = asynchandler(async (req, res) => {
+  try {
+   
+    const user = await User.findById(req?.user?._id);
+    if (!user) return notFoundError(res, "User not found");
+    return successResponse(res, user, "User retrieved successfully");
+  } catch (error) {
+    return internalServerError(res, error.message);
+  }
+});
 
 // Update a user
 const updateUser = asynchandler(async (req, res) => {
@@ -512,4 +522,5 @@ module.exports = {
   getAllMyOrders,
   deleteOrder,
   addPropertyToTheCart,
+  myprofile
 };

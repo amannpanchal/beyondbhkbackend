@@ -1,4 +1,4 @@
-const User = require("../Models/userModel");
+const User = require("../Models/userModel.js");
 const asynchandler = require("express-async-handler");
 const cloudinary = require("../Utils/cloudinary.js");
 const {
@@ -15,6 +15,7 @@ const Testimonial = require("../Models/Testimonials.js");
 const Order = require("../Models/orderModel.js");
 const Cart = require("../Models/cartModel.js");
 const Category = require("../Models/categoryModel.js");
+const InvestWithUs = require("../Models/investWithUsModel.js");
 
 // Admin login functionality
 const loginAdmin = asynchandler(async (req, res) => {
@@ -502,6 +503,106 @@ const getAllUsersWishlist = async (req, res) => {
   }
 };
 
+
+const createInvestment = async (req, res) => {
+  try {
+    const {
+      fullName,
+      email,
+      mobileNumber,
+      whatsappNumber,
+      address,
+      pincode,
+      companyFirmName,
+      companyFirmAddress,
+    } = req.body;
+
+    if (
+      !fullName ||
+      !email ||
+      !mobileNumber ||
+      !whatsappNumber ||
+      !address ||
+      !pincode ||
+      !companyFirmName ||
+      !companyFirmAddress
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    const newInvestment = new InvestWithUs({
+      fullName,
+      email,
+      mobileNumber,
+      whatsappNumber,
+      address,
+      pincode,
+      companyFirmName,
+      companyFirmAddress,
+    });
+
+    await newInvestment.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Investment entry created successfully",
+      data: newInvestment,
+    });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const errors = Object.values(error.errors).map((err) => err.message);
+      return res.status(400).json({
+        success: false,
+        message: "Validation error",
+        errors,
+      });
+    } else if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: "Duplicate entry error",
+        errors: `The email "${error.keyValue.email}" is already registered.`,
+      });
+    } else {
+      console.error("Error creating investment entry:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
+    }
+  }
+};
+
+const getAllInvestorsByAdmin = async (req, res) => {
+  try {
+    // Retrieve all investment entries from the database, sorted by createdAt in descending order
+    const investors = await InvestWithUs.find().sort({ createdAt: -1 });
+
+    // Check if no investors are found
+    if (!investors || investors.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No investors found",
+      });
+    }
+
+    // Return the list of investors
+    res.status(200).json({
+      success: true,
+      message: "Investors retrieved successfully",
+      data: investors,
+    });
+  } catch (error) {
+    console.error("Error retrieving investors:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   loginAdmin,
   getAllUsers,
@@ -522,5 +623,7 @@ module.exports = {
   updateTestimonial,
   getAllUsersOrders,
   getAllUsersCart,
-  getAllUsersWishlist
+  getAllUsersWishlist,
+  createInvestment,
+  getAllInvestorsByAdmin
   };
