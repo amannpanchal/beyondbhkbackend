@@ -68,7 +68,7 @@ exports.createProperty = async (req, res) => {
       shopCommercialDetails,
       address,
       propertyConstructionStatus,
-      aminities,
+      amenities,
       propertyFacing,
       prominentLandmarksNearby,
       totalPrice,
@@ -146,7 +146,7 @@ exports.createProperty = async (req, res) => {
       ...(propertyType && { propertyType }),
       ...(address && { address: JSON.parse(address) }),
       ...(propertyConstructionStatus && { propertyConstructionStatus }),
-      ...(aminities && { aminities }),
+      ...(amenities && { amenities }),
       ...(propertyFacing && { propertyFacing }),
       ...(prominentLandmarksNearby && { prominentLandmarksNearby }),
       ...(totalPrice && { totalPrice: JSON.parse(totalPrice) }),
@@ -162,7 +162,9 @@ exports.createProperty = async (req, res) => {
       ...(files?.videoBanner && {
         videoBanner: files.videoBanner[0]?.url,
       }),
-      ...(uploadedBrochure.length > 0 && { brochure: uploadedBrochure }),
+      ...(uploadedBrochure.length > 0 && {
+        propertyBrochure: uploadedBrochure,
+      }),
       ...(ownerDetails && { ownerDetails }),
       postedBy: req.user?._id,
     };
@@ -424,6 +426,23 @@ exports.getAllProperty = async (req, res) =>{
 }
 
 };
+exports.deleteProperty = async (req, res) => {
+  try { 
+    const id = req.params.id;
+    const property = await Property.findByIdAndDelete(id);
+    res.status(200).json({
+      success: true,
+      message: "Property deleted successfully.",
+    })
+
+  }
+  catch (e) {
+    return res.status(400).json({
+      success: false,
+      message: "Property not deleted",
+    })
+  }
+}
 
 
 

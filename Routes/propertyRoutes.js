@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {upload} = require('../Utils/cloudinary')
 
-const { createProperty, getMyAllProperty, getAllWebsiteProperty, getSingleProperty, getAllProperty, createPropertyy, updateProperty } = require("../Controllers/propertyController.js");
+const { createProperty, getMyAllProperty, getAllWebsiteProperty, getSingleProperty, getAllProperty, createPropertyy, updateProperty, deleteProperty } = require("../Controllers/propertyController.js");
 const { validateUserToken } = require("../middlewares/authMiddleware.js");
 // const { addToCart } = require("../Controllers/userController");
 
@@ -23,7 +23,7 @@ router.post(
     { name: "videoBanner", maxCount: 1 },
     { name: "imageBanner", maxCount: 1 },
     { name: "brochureImage", maxCount: 10 },
-    { name: "floorPlansImage", maxCount: 1 },
+    { name: "floorPlansImage", maxCount: 10 },
   ]),
 createProperty
   
@@ -33,5 +33,6 @@ createProperty
 router.get("/getallwebsiteproperty", getAllWebsiteProperty)
 router.get("/:id", getSingleProperty);
 router.put("/:id",updateProperty);
+router.delete("/:id",deleteProperty);
 module.exports = router;
 
