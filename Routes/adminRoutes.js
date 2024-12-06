@@ -21,10 +21,8 @@ const {
   getAllCategory,
   deleteCategory,
   updateCategory,
-  createInvestment,
-  getAllInvestorsByAdmin,
-} = require("../Controllers/adminController.js");
-const { validateTokenForRoles } = require("../middlewares/authMiddleware.js");
+} = require("../controllers/adminController");
+const { validateTokenForRoles } = require("../middlewares/authMiddleware");
 const upload = require("../Utils/multer");
 
 router.post("/login", loginAdmin);
@@ -56,9 +54,5 @@ router.put("/testimonial/:id", upload.single("file"), updateTestimonial);
 router.get("/allOrders", getAllUsersOrders);
 router.get("/allUserCarts", getAllUsersCart);
 router.get("/allUserWishlist", getAllUsersWishlist);
-
-router.post("/investwithus", createInvestment);
-router.get("/getAllInvestors", getAllInvestorsByAdmin);
-
 
 module.exports = router;

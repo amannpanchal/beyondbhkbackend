@@ -1,6 +1,6 @@
 const multer = require("multer");
-const Property = require("../Models/propertyModel.js");
-const { cloudinary } = require("../Utils/cloudinary.js");
+const Property = require("../Models/propertyModel");
+const { cloudinary } = require("../Utils/cloudinary");
 
 
 // Controller to create a new property
@@ -68,7 +68,7 @@ exports.createProperty = async (req, res) => {
       shopCommercialDetails,
       address,
       propertyConstructionStatus,
-      aminities,
+      amenities,
       propertyFacing,
       prominentLandmarksNearby,
       totalPrice,
@@ -86,7 +86,9 @@ exports.createProperty = async (req, res) => {
       ownerDetails,
     } = req.body;
 
+
     const { files } = req;
+    
     const uploadedImage = [];
     const uploadedVideos = [];
     const uploadedFloorPlans = [];
@@ -97,6 +99,7 @@ exports.createProperty = async (req, res) => {
         const newImage = {
           imageUrl : item.path
         };
+
         uploadedImage.push(newImage);
       });
     }
@@ -111,6 +114,7 @@ exports.createProperty = async (req, res) => {
     }
 
     if (files?.brochureImage) {
+    
       files.brochureImage.forEach((item, index) => {
         if (req.body.brochureLabel) {
           let newbrochureLabel = JSON.parse(req.body.brochureLabel);
@@ -122,6 +126,8 @@ exports.createProperty = async (req, res) => {
         }
       });
     }
+    
+    
 
     if (files?.floorPlansImage) {
       files.floorPlansImage.forEach((item, index) => {
@@ -139,13 +145,15 @@ exports.createProperty = async (req, res) => {
           uploadedFloorPlans.push(floorPlan);
         }
       });
+      
     }
 
     const newProperty = {
       ...(propertyType && { propertyType }),
       ...(address && { address: JSON.parse(address) }),
+
       ...(propertyConstructionStatus && { propertyConstructionStatus }),
-      ...(aminities && { aminities }),
+      ...(amenities && { amenities: JSON.parse(amenities) }),
       ...(propertyFacing && { propertyFacing }),
       ...(prominentLandmarksNearby && { prominentLandmarksNearby }),
       ...(totalPrice && { totalPrice: JSON.parse(totalPrice) }),
@@ -161,7 +169,9 @@ exports.createProperty = async (req, res) => {
       ...(files?.videoBanner && {
         videoBanner: files.videoBanner[0]?.url,
       }),
-      ...(uploadedBrochure.length > 0 && { brochure: uploadedBrochure }),
+      ...(uploadedBrochure.length > 0 && {
+        propertyBrochure: uploadedBrochure,
+      }),
       ...(ownerDetails && { ownerDetails }),
       postedBy: req.user?._id,
     };

@@ -19,11 +19,9 @@ const {
   orderProperty,
   getAllMyOrders,
   deleteOrder,
-  myprofile,
 } = require("../Controllers/userController.js");
 
 const { validateUserToken } = require("../middlewares/authMiddleware.js");
-router.get("/myprofile", validateUserToken, myprofile);
 
 router.get("/cart",validateUserToken, getAllPropertyCart);
 router.post("/register", createUser);
