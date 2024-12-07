@@ -146,7 +146,7 @@ exports.createProperty = async (req, res) => {
       ...(propertyType && { propertyType }),
       ...(address && { address: JSON.parse(address) }),
       ...(propertyConstructionStatus && { propertyConstructionStatus }),
-      ...(amenities && { amenities }),
+      ...(amenities && { amenities : JSON.parse(amenities )}),
       ...(propertyFacing && { propertyFacing }),
       ...(prominentLandmarksNearby && { prominentLandmarksNearby }),
       ...(totalPrice && { totalPrice: JSON.parse(totalPrice) }),
@@ -369,7 +369,43 @@ exports.getMyAllProperty = async (req, res) => {
 exports.getAllWebsiteProperty  = async (req, res) => {
   try {
     const properties = await Property.find({
-      // showOnWebsite : true
+      showOnWebsite : true
+    })
+    return res.status(200).json({
+      success: true,
+      message: "All Properties are fetched.",
+      properties,
+    });
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      message: "All Properties fetching is failed..",
+      
+    });
+  }
+};
+exports.getAllWebsiteProperty  = async (req, res) => {
+  try {
+    const properties = await Property.find({
+      showOnWebsite : true
+    })
+    return res.status(200).json({
+      success: true,
+      message: "All Properties are fetched.",
+      properties,
+    });
+  } catch (e) {
+    return res.status(400).json({
+      success: false,
+      message: "All Properties fetching is failed..",
+      
+    });
+  }
+};
+exports.getAllProperty  = async (req, res) => {
+  try {
+    const properties = await Property.find({
+  
     })
     return res.status(200).json({
       success: true,

@@ -24,13 +24,15 @@ router.post(
     { name: "imageBanner", maxCount: 1 },
     { name: "brochureImage", maxCount: 10 },
     { name: "floorPlansImage", maxCount: 10 },
-  ]),
+  ])
+  ,
 createProperty
   
 );
 // router.get("/getmyproperty", validateUserToken, getMyAllProperty);
 // router.get("/getallproperty", getAllProperty);
 router.get("/getallwebsiteproperty", getAllWebsiteProperty)
+router.get("/getallproperty", getAllProperty)
 router.get("/:id", getSingleProperty);
 router.put("/:id",updateProperty);
 router.delete("/:id",deleteProperty);

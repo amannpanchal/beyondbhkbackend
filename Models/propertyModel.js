@@ -160,8 +160,8 @@ const PropertySchema = new Schema(
     imageBanner: String,
     videoBanner: String,
     propertyBrochure: [{ file: String, label: String }],
-    isHotTrending: { type: Boolean, default: true },
-    showOnWebsite: { type: Boolean, default: true },
+    isHotTrending: { type: Boolean, default: false },
+    showOnWebsite: { type: Boolean, default: false },
     ownerDetails: {
       name: {
         type: String,
@@ -172,7 +172,7 @@ const PropertySchema = new Schema(
         // required: true
       },
       number: {
-        type: String,
+        type: Number,
         // required: true
       },
       address: {
